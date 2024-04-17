@@ -5,10 +5,17 @@ const fs = require("fs");
 const fsPromises = require("fs").promises;
 const PORT = process.env.PORT || 3000;
 const path = require("path");
+const EventEmitter = require('events')
+const logEvents = require('./logEvents')
+
+const myEmitter = new EventEmitter();
+myEmitter.on('log' , (msg,fileName) =>{
+  logEvents(msg , fileName)
+})
 
 const serveFile = async (filePath, contentType, response) => {
   try {
-    const rawData = await fsPromises.readFile(
+    const rawData = await fsPromises.readFie(
       filePath,
       !contentType.includes("image") ? "utf8" : ""
     );
@@ -22,14 +29,18 @@ const serveFile = async (filePath, contentType, response) => {
     );
   } catch (error) {
     console.error(error);
-    res.statusCode = 500;
-    res.end(data);
+  myEmitter.emit('log' , `${error.name}\t${error.message}` , 'errLog.txt')
+
+    // res.statusCode = 500;
+    // res.end(data);
   }
 };
 
 const server = http.createServer((req, res) => {
+
   const {url, method} = req;
   console.log(url , method)
+  myEmitter.emit('log' , `${url}\t${method}` , 'reqLog.txt');
 
   const extension = path.extname(url)
   console.log(extension)

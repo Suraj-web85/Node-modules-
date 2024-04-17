@@ -14,8 +14,8 @@
 // console.log(path.dirname(__filename))
 // console.log(path.parse(__filename))
 
-const {add, sub, multply,div} = require('../Math')
-console.log(add(1,2))
+const {add, sub, multply,div} = require('./Math')
+console.log(add(2,2))
 console.log(sub(1,2))
 console.log(div(1,2))
 console.log(multply(1,2))

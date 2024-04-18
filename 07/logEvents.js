@@ -1,24 +1,33 @@
 const path = require('path')
 const fs = require('fs')
-const {format} = require('date-fns')
+const { format } = require('date-fns')
+
 const fsPromises = require('fs').promises
 
-const logEvents = async (message) =>{
-  const dateTime = `${format(new Date(),'yyyy/MM/dd\thh:mm:ss')}`;
-  const logCheez = `${dateTime}\t${message}`;
-  try{
-    
-    const fileExist = await fsPromises.access(path.join(__dirname,'log')).then(() => true).catch(()=>false)
-    if(!fileExist){
-      await fsPromises.mkdir(path.join(__dirname,'log'));
-      console.log('Directory created')
-    }
-      
-    
-    await fsPromises.writeFile(path.join(__dirname,'log','logEvents.txt'),logCheez)
-    console.log(logCheez)
-  }catch (error) {
-    console.log(error)
+
+const logEvents = async (msg) => {
+
+  const dateTime = `${format(new Date(),'yyyy/MM/dd\thh:ss:mm\t')}`
+  const logItem = `${dateTime}\t${msg}`
+  
+    // try{
+      // if(!fs.existsSync(path.join(__dirname,'log'))){
+      // await  fsPromises.mkdir(path.join(__dirname,'log'))
+      //   console.log('directory created')
+      // }
+      // await fsPromises.writeFile(path.join(__dirname,'log','myNewText.txt' ), logItem);
+    // }catch(err){
+    //   console.error(err)
+    // }
+    fsPromises.mkdir(path.join(__dirname,'log'))
+    .then(() => {
+      console.log("directory created")
+      return fsPromises.writeFile(path.join(__dirname,'log','myNewText.txt' ), logItem);
+    })
+    .then(() => console.log('has been written something'))
+    .catch((err) =>{
+      console.log(err)
+    })
   }
-}
+
 module.exports = logEvents;

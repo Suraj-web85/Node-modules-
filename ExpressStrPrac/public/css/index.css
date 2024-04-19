@@ -1,0 +1,14 @@
+body{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+}
+.index{
+  font-size: 1rem;
+  font-weight:600;
+}

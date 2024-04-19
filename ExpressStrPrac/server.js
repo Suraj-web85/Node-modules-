@@ -15,7 +15,7 @@ myEmitter.on('log' , (msg,fileName) =>{
 
 const serveFile = async (filePath, contentType, response) => {
   try {
-    const rawData = await fsPromises.readFie(
+    const rawData = await fsPromises.readFile(
       filePath,
       !contentType.includes("image") ? "utf8" : ""
     );
